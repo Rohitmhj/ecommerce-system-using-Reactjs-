@@ -1,0 +1,4 @@
+function formatmoney(amountcents){
+   return `$${(amountcents/100).toFixed(2)}` 
+}
+export default formatmoney;
