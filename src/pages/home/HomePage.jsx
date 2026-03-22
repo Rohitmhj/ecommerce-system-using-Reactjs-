@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
-import "./HomePage.css";
+
 import Header from "../../Components/Header";
 import Productgrid from "./Productgrid";
 
@@ -34,21 +34,20 @@ function HomePage({ cart, loadCart }) {
 		}
 	};
 
-	const handleHomeClick = () => {
-		handleSearch("");
-	};
+	
 
 	return (
 		<>
+			<title>Ecommerce-project</title>
 			<title>Ecommerce-project</title>
 			<Header
 				cart={cart}
 				onSearch={handleSearch}
 			/>
 
-			<div className="home-page">
+			<div className="mt-[60px]">
 				{products.length === 0 && searchQuery.trim() !== "" ?
-					<div className="product-not-found">
+					<div className="flex justify-center items-center min-h-[300px] text-[24px] text-[rgb(128,128,128)] font-medium text-center px-5 py-10">
 						<p>Product not found</p>
 					</div>
 				:	<Productgrid

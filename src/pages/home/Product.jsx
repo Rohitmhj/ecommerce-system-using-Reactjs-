@@ -9,7 +9,6 @@ function Product({ product, loadCart }) {
 	const [showAddedMessage, setShowAddedMessage] = useState(false);
 	const [addedQuantity, setAddedQuantity] = useState(0);
 
-	// Auto-hide the "Added" message after 2 seconds
 	useEffect(() => {
 		if (showAddedMessage) {
 			const timer = setTimeout(() => {
@@ -35,31 +34,38 @@ function Product({ product, loadCart }) {
 	};
 
 	return (
-		<div
-			key={product.id}
-			className="product-container">
-			<div className="product-image-container">
+		<div className="pt-10 pb-[25px] px-[25px] border-r border-b border-[rgb(240,240,240)] flex flex-col">
+			{/* Product Image */}
+			<div className="flex justify-center items-center h-[180px] mb-5">
 				<img
-					className="product-image"
+					className="max-w-full max-h-full rounded-[5px]"
 					src={product.image}
 				/>
 			</div>
 
-			<div className="product-name limit-text-to-2-lines">{product.name}</div>
+			{/* Product Name */}
+			<div className="min-h-[40px]. mb-[5px] limit-text-to-2-lines">
+				{product.name}
+			</div>
 
-			<div className="product-rating-container">
+			{/* Rating */}
+			<div className="flex items-center mb-[10px]">
 				<img
-					className="product-rating-stars"
+					className="w-[100px] mr-[6px]"
 					src={`images/ratings/rating-${product.rating.stars * 10}.png`}
 				/>
-				<div className="product-rating-count link-primary">
+				<div className="link-primary mt-[3px] cursor-auto">
 					{product.rating.count}
 				</div>
 			</div>
 
-			<div className="product-price">{formatmoney(product.priceCents)}</div>
+			{/* Price */}
+			<div className="font-bold mb-[10px]">
+				{formatmoney(product.priceCents)}
+			</div>
 
-			<div className="product-quantity-container">
+			{/* Quantity Selector */}
+			<div className="mb-[17px]">
 				<select
 					value={quantity}
 					onChange={selectquantities}>
@@ -76,11 +82,16 @@ function Product({ product, loadCart }) {
 				</select>
 			</div>
 
-			<div className="product-spacer"></div>
+			{/* Spacer */}
+			<div className="flex-1"></div>
 
+			{/* Added to Cart Message */}
 			{showAddedMessage && (
-				<div className="added-to-cart">
+				<div
+					className="text-[rgb(25,135,84)] text-[16px] flex items-center mb-[8px] opacity-100"
+					style={{ animation: "slideIn 0.3s ease-in-out" }}>
 					<img
+						className="h-[19px] mr-[6px]"
 						src="images/icons/checkmark.png"
 						alt="Checkmark"
 					/>
@@ -88,8 +99,9 @@ function Product({ product, loadCart }) {
 				</div>
 			)}
 
+			{/* Add to Cart Button */}
 			<button
-				className="add-to-cart-button button-primary"
+				className="button-primary w-full p-2 h-[34px] mt-[1px]"
 				onClick={addTOcart}>
 				Add to Cart
 			</button>

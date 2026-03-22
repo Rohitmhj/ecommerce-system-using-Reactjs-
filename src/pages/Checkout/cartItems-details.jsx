@@ -4,22 +4,27 @@ import formatmoney from "../../utils/money";
 
 function CartItemsDetails({ cartItem, deleteItem, UpdateItem }) {
 	return (
-		<div className="cart-item-details">
-			<div className="product-name">{cartItem.product.name}</div>
-			<div className="product-price">
+		<div>
+			{/* Product Name */}
+			<div className="font-bold mb-[8px]">{cartItem.product.name}</div>
+
+			{/* Product Price */}
+			<div className="font-bold mb-[5px]">
 				{formatmoney(cartItem.product.priceCents)}
 			</div>
-			<div className="product-quantity">
+
+			{/* Quantity Controls */}
+			<div className="flex items-center gap-[8px]">
 				<span>
-					Quantity: <span className="quantity-label">{cartItem.quantity}</span>
+					Quantity: <span className="font-medium">{cartItem.quantity}</span>
 				</span>
 				<span
-					className="update-quantity-link link-primary"
+					className="link-primary ml-[3px]"
 					onClick={() => UpdateItem(cartItem.quantity + 1)}>
 					Update
 				</span>
 				<span
-					className="update-quantity-link link-primary"
+					className="link-primary ml-[3px]"
 					onClick={() => {
 						if (cartItem.quantity > 1) {
 							UpdateItem(cartItem.quantity - 1);
@@ -27,10 +32,10 @@ function CartItemsDetails({ cartItem, deleteItem, UpdateItem }) {
 							deleteItem();
 						}
 					}}>
-					reduce
+					Reduce
 				</span>
 				<span
-					className="delete-quantity-link link-primary"
+					className="link-primary ml-[3px]"
 					onClick={deleteItem}>
 					Delete
 				</span>
@@ -38,4 +43,5 @@ function CartItemsDetails({ cartItem, deleteItem, UpdateItem }) {
 		</div>
 	);
 }
+
 export default CartItemsDetails;
