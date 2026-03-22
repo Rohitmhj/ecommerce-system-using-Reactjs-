@@ -1,24 +1,22 @@
+/** @format */
 
- import Product from './Product';
+import Product from "./Product";
 
-
-function Productgrid({products, loadcart}){
-
- 
-          return(
-        <>
-        
-
-              <div className="products-grid">
-        {products.map((product)=>{
-          return(
-                  
-                  <Product key={product.id}  product={product} loadcart={loadcart} />
-
-          );
-        })}
-        </div>
-        </>
-    );
+function Productgrid({ products, loadCart }) {
+	return (
+		<>
+			<div className="products-grid">
+				{products.map((product) => {
+					return (
+						<Product
+							key={product.id}
+							product={product}
+							loadCart={loadCart}
+						/>
+					);
+				})}
+			</div>
+		</>
+	);
 }
 export default Productgrid;

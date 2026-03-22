@@ -1,31 +1,63 @@
+/** @format */
+
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./HomePage.css";
 import Header from "../../Components/Header";
 import Productgrid from "./Productgrid";
 
-function HomePage({ cart ,loadcart }) {
-  const [products, setproduct] = useState([]);
+function HomePage({ cart, loadCart }) {
+	const [products, setproduct] = useState([]);
+	const [searchQuery, setSearchQuery] = useState("");
+	const [allProducts, setAllProducts] = useState([]);
 
-  useEffect(() => {
-  const getHomeData=async()=>{
-      const response= await axios.get("/api/products?expand=product")
-   setproduct(response.data);
-  }
-   getHomeData();
-   
-    
-  }, []);
+	useEffect(() => {
+		const getHomeData = async () => {
+			const response = await axios.get("/api/products?expand=product");
+			setproduct(response.data);
+			setAllProducts(response.data);
+		};
+		getHomeData();
+	}, []);
 
-  return (
-    <>
-      <title>Ecommerce-project</title>
-      <Header cart={cart} />
+	const handleSearch = (query) => {
+		setSearchQuery(query);
+		if (query.trim() === "") {
+			setproduct(allProducts);
+		} else {
+			const filtered = allProducts.filter(
+				(product) =>
+					product.name &&
+					product.name.toLowerCase().includes(query.toLowerCase()),
+			);
+			setproduct(filtered);
+		}
+	};
 
-      <div className="home-page">
-        <Productgrid products={products} loadcart={loadcart}/>
-      </div>
-    </>
-  );
+	const handleHomeClick = () => {
+		handleSearch("");
+	};
+
+	return (
+		<>
+			<title>Ecommerce-project</title>
+			<Header
+				cart={cart}
+				onSearch={handleSearch}
+			/>
+
+			<div className="home-page">
+				{products.length === 0 && searchQuery.trim() !== "" ?
+					<div className="product-not-found">
+						<p>Product not found</p>
+					</div>
+				:	<Productgrid
+						products={products}
+						loadCart={loadCart}
+					/>
+				}
+			</div>
+		</>
+	);
 }
 export default HomePage;

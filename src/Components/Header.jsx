@@ -1,58 +1,99 @@
-import React from "react";
+/** @format */
 
-
-import'./header.css';
+import "./header.css";
 import { Link } from "react-router";
-function Header({cart}){
-    let cartQuantity=0;
+import { useState } from "react";
+import { getImageUrl } from "../utils/imageLoader";
 
-    cart.forEach((cartItem)=>{
-      cartQuantity+=cartItem.quantity;
-    })
+function Header({ cart = [], onSearch = () => {} }) {
+	const [searchValue, setSearchValue] = useState("");
+	let cartQuantity = 0;
 
-    return(
-    <>
-    
-             <div className="header">
-      <div className="left-section">
-        <Link to="/" className="header-link">
-          <img className="logo"
-            src="images/logo-white.png" />
-          <img className="mobile-logo"
-            src="images/mobile-logo-white.png" />
-        </Link>
-      </div>
+	if (cart && Array.isArray(cart)) {
+		cart.forEach((cartItem) => {
+			cartQuantity += cartItem.quantity;
+		});
+	}
 
-      <div className="middle-section">
-        <input className="search-bar" type="text" placeholder="Search" />
+	const handleSearchClick = () => {
+		onSearch(searchValue);
+	};
 
-        <button className="search-button">
-          <img className="search-icon" src="images/icons/search-icon.png" />
-        </button>
-      </div>
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			handleSearchClick();
+		}
+	};
 
-      <div className="right-section">
-        <Link className="orders-link header-link" to="/orders">
-          <span className="orders-text">Orders</span>
-        </Link>
+	const handleLogoClick = () => {
+		setSearchValue("");
+		onSearch("");
+	};
 
-        <Link className="cart-link header-link" to="/checkout">
-          <img className="cart-icon" src="images/icons/cart-icon.png" />
-          <div className="cart-quantity">{cartQuantity}</div>
-          <div className="cart-text">Cart</div>
-        </Link>
-      </div>
-    </div>
-    </>
-    )
+	return (
+		<>
+			<div className="header">
+				<div className="left-section">
+					<Link
+						to="/"
+						className="header-link"
+						onClick={handleLogoClick}>
+						<div className="store-logo-container">
+							<span className="store-logo-icon">🏪</span>
+							<span className="store-logo-text">General Store</span>
+						</div>
+					</Link>
+				</div>
+
+				<div className="middle-section">
+					<input
+						className="search-bar"
+						type="text"
+						placeholder="Search"
+						value={searchValue}
+						onChange={(e) => setSearchValue(e.target.value)}
+						onKeyPress={handleKeyPress}
+					/>
+
+					<button
+						className="search-button"
+						onClick={handleSearchClick}>
+						<img
+							className="search-icon"
+							src={getImageUrl("images/icons/search-icon.png")}
+							alt="Search"
+						/>
+					</button>
+				</div>
+
+				<div className="right-section">
+					<Link
+						className="orders-link header-link"
+						to="/orders">
+						<span className="orders-text">Orders</span>
+					</Link>
+
+					<Link
+						className="orders-link header-link"
+						to="/contact">
+						<span className="orders-text">Contact</span>
+					</Link>
+
+					<Link
+						className="cart-link header-link"
+						to="/checkout">
+						<img
+							className="cart-icon"
+							src={getImageUrl("images/icons/cart-icon.png")}
+							alt="Cart"
+						/>
+						<div className="cart-quantity">{cartQuantity}</div>
+						<div className="cart-text">Cart</div>
+					</Link>
+				</div>
+			</div>
+		</>
+	);
 }
-
-
-
-
-
-
-
-
 
 export default Header;

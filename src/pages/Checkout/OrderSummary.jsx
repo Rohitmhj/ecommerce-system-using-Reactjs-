@@ -3,7 +3,9 @@ import CartItemsDetails from "./cartItems-details";
 import DeliveryOption from "./DeliveryOption";
 import axios from "axios";
 
+
 function OrderSummary({ deliveryOption, cart, loadCart }) {
+  
   return (
     <div className="order-summary">
       {deliveryOption.length > 0 &&
@@ -15,14 +17,19 @@ function OrderSummary({ deliveryOption, cart, loadCart }) {
             await axios.delete(`/api/cart-items/${cartItem.productId}`);
             await loadCart();
           };
+          const UpdateItem = async (newquantity) => {
+            await axios.put(`/api/cart-items/${cartItem.productId }`,{quantity:newquantity});
+            await loadCart();
+          }
           return (
             <div key={cartItem.productId} className="cart-item-container">
               <div className="delivery-date">
                 Delivery date:{" "}
-                {dayjs(selectedoption.estimatedDeliveryTime).format(
+                {dayjs(selectedoption.estimatedDeliveryTimeMs).format(
                   "dddd, MMMM D"
                 )}
               </div>
+              
 
               <div className="cart-item-details-grid">
                 <img className="product-image" src={cartItem.product.image} />
@@ -30,6 +37,7 @@ function OrderSummary({ deliveryOption, cart, loadCart }) {
                   cartItem={cartItem}
                   deleteItem={deleteItem}
                   loadCart={loadCart}
+                  UpdateItem={UpdateItem}
                 />
 
                 <DeliveryOption
